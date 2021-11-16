@@ -1,0 +1,43 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <% if(recipeDet){ %><li class="breadcrumb-item"><a href="/category/<%- recipeDet.category %>"><%- recipeDet.category %></a></li><% } %>
+      <li class="breadcrumb-item active" aria-current="page"><%- recipeDet.name %></li>
+    </ol>
+</nav>
+
+
+
+<% if(recipeDet){ %>
+  <div class="row">
+      <div class="col-12 col-md-4">
+          <img src="/uploads/<%- recipeDet.image %>" class="img-fluid sticky-top" style="top:20px" alt="<%- recipeDet.name %>" loading="lazy">
+
+      </div>
+
+      <div class="col-12 col-md-8">
+          <div class="row">
+              <div class="col-12"> <h1><%- recipeDet.name %></h1> </div>
+              <div class="col-12 mb-4"><i class="bi bi-tag" ></i> <%- recipeDet.category %>  </div>
+              <div class="col-12" style="white-space: pre-line;" >
+                <h4>Cooking Instructions</h4>
+                <%- recipeDet.description %>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+                <div class="col-12">
+                    <h4>Ingredients</h4>
+                    <ul class="list-group list-group-flush">
+                        <% recipeDet.ingredients.forEach((ing,i)=>{ %>
+                            <li><%- ing %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+  </div>
+  <% }else{ %>
+    <p>not found</p>
+  <% } %>

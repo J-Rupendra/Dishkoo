@@ -1,0 +1,28 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><%- categoryName %> Recipes</li>
+    </ol>
+</nav>
+
+<% if(recipes.length>0){ %>
+    
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    
+            <% recipes.forEach((rep,i)=>{ %>
+                <a href="/recipe/<%- rep.id %>" class="col text-center category__link"> 
+                    <div class="category__img category__img--large shadow">
+                        <img src="img/<%= rep.image %>" alt="<%- rep.name %>" loading="lazy" >
+                    </div>
+                    <div class="pt-1"><%- rep.name %></div>
+                </a>
+            <% }) %>
+    
+
+
+
+        
+    </div>
+<% }else{ %>
+    <p>No items found</p>
+<% } %>
