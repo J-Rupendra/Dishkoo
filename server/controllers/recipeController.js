@@ -55,14 +55,52 @@ exports.searchRecipe=async(req,res)=>{
 
 exports.submitRecipePage=async(req,res)=>{
     try {
-        res.render('submitRecipe',{title: 'Submit-recipe'})
+        const infoErrorObj = req.flash('infoError')
+        const infoSubmitObj = req.flash('infoSubmit')
+        res.render('submitRecipe',{title: 'Submit-recipe',infoErrorObj,infoSubmitObj})
     } catch (error) {
         res.send({message:error.message})
     }
 }
 
 exports.submitRecipeData = async(req,res)=>{
-    res.redirect('submit-recipe');
+    try {
+
+        let imageUploadFile, uploadPath, newImageName;
+
+        if(!req.files || Object.keys(req.files).length===0){
+            console.log('No Files uploaded.');
+        }
+        else{
+            imageUploadFile = req.files.image;
+            newImageName = Date.now() + imageUploadFile.name;
+
+            uploadPath = require('path').resolve('./')+'/public/uploads/'+newImageName;
+            console.log('path', uploadPath,req.files.image);
+
+            imageUploadFile.mv(uploadPath,(err)=>{
+                if(err) return res.status(500).send(err);
+            })
+        }
+
+
+        const newRecipe = new recipe({
+            name: req.body.name,
+            description: req.body.description,
+            email: req.body.email,
+            ingredients: req.body.ingredients,
+            category: req.body.category,
+            image: newImageName
+        })
+
+        await newRecipe.save();
+
+        req.flash('infoSubmit','Form submitted successfully.')
+        res.redirect('submit-recipe');
+    } catch (error) {
+        req.flash('infoError',error.message)
+        res.redirect('submit-recipe');
+    }
 }
 
 

@@ -29,6 +29,6 @@ const recipeSchema = new mongoose.Schema({
 })
 
 // indexing for better search
-recipeSchema.index({ name: 'text', description: 'text', category: 'text' })
+recipeSchema.index({ name: 'text', description: 'text', category: 'text',ingredients: 'text' })
 
 module.exports = mongoose.model('recipe', recipeSchema)
